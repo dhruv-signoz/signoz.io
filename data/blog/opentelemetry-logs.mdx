@@ -266,16 +266,16 @@ from its SDK.
   Here's an example of using OpenTelemetry's [LoggingInstrumentor](https://opentelemetry-python-contrib.readthedocs.io/en/latest/instrumentation/logging/logging.html) to instrument the logging library to automatically add trace context in a Python application.
 
   ```python 
-      import logging
-      from opentelemetry.instrumentation.logging import LoggingInstrumentor
-      
-      # Instrument the logging library to automatically add trace context
-      LoggingInstrumentor().instrument(set_logging_format=True)
-      
-      # Now, any log created within an active trace will automatically
-      # include trace_id and span_id in its record.
-      logging.basicConfig(level=logging.INFO)
-      logging.info("User login successful.")
+  import logging
+  from opentelemetry.instrumentation.logging import LoggingInstrumentor
+  
+  # Instrument the logging library to automatically add trace context
+  LoggingInstrumentor().instrument(set_logging_format=True)
+  
+  # Now, any log created within an active trace will automatically
+  # include trace_id and span_id in its record.
+  logging.basicConfig(level=logging.INFO)
+  logging.info("User login successful.")
   ```
 
   **Example 2. Instrumenting in Java with a Log Appender**
