@@ -1,11 +1,11 @@
 ---
 title: "Complete Guide to Redis Monitoring: Essential Metrics, Tools & Best Practices 2025"
 slug: "redis-monitoring"
-date: "2025-07-31"
-tags: [Monitoring, Redis]
+date: "2025-11-11"
+tags: [Monitoring, Observability, Redis]
 authors: [ankit_anand]
 description: "Master Redis monitoring with our comprehensive guide covering essential performance metrics, memory management, alerting strategies, and comparison of top monitoring tools including SigNoz, Prometheus, and Grafana for 2025."
-keywords: [redis monitoring, redis metrics, redis performance monitoring, redis memory monitoring, redis latency monitoring, redis cache monitoring, redis cluster monitoring, prometheus redis, grafana redis, redis alerting, redis troubleshooting, redis observability]
+keywords: [redis monitoring, redis metrics, redis performance monitoring, redis memory monitoring, redis latency monitoring, redis cache monitoring, redis cluster monitoring, prometheus redis, grafana redis, redis alerting, redis troubleshooting, redis observability, observability, signoz]
 ---
 
 Redis is a powerful tool, but its position in the critical path of applications means that performance issues can have a widespread impact. Whether you use Redis as a cache, session store, or primary database, effective monitoring is essential to prevent slowdowns and ensure a responsive user experience.
@@ -22,6 +22,10 @@ Redis (Remote Dictionary Server) is an in-memory data structure store that serve
 - **Primary database**: For use cases that require rapid read/write operations, Redis is increasingly being used as a primary database.
 
 Given its central role, any degradation in Redis performance can cascade through your system, leading to frustrated users and potential failures. Effective monitoring provides the early warnings and actionable insights needed to prevent these issues before they escalate.
+
+### Integration with Observability Systems
+
+As part of your observability architecture, it is critical to keep track of Redis's performance and resolve any potential issues as you observe them. This will ensure you have insight into its behaviour, and prevent Redis from becoming a point of failure for your upstream services. Further, you can integrate telemetry libraries in your application code to capture all queries executed by the Redis engine.
 
 ## Essential Redis Metrics
 
