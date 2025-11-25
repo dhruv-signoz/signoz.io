@@ -1,7 +1,7 @@
 ---
-title: Monitoring Django application performance with OpenTelemetry
+title: Beginner's Guide to OpenTelemetry & Django (2025)
 slug: opentelemetry-django
-date: 2024-08-07
+date: 2025-11-25
 tags: [OpenTelemetry Instrumentation, Python]
 authors: [ankit_anand, ankit_nayan]
 description: OpenTelemetry provides an open-source standard with a consistent collection mechanism and data format. In this article, learn how to set up monitoring for a Django application using OpenTelemetry.
@@ -10,124 +10,9 @@ hide_table_of_contents: false
 keywords: [opentelemetry,opentelemetry django,opentelemetry python,distributed tracing,observability,django monitoring,django instrumentation,signoz]
 ---
 
+Django is a popular open-source "batteries-included" python web framework that enables rapid development while taking out much of the hassle from routine web development. It provides pre-built components like web servers, database ORMs, and authentication/authorization layers, allowing developers to focus on application business logic and reduces prevents common security mistakes. As such, developers and organizations worldwide use Django to build mission-critical applications.
 
-<head>
-  <script
-    type="application/ld+json"
-    dangerouslySetInnerHTML={{ __html: JSON.stringify({
-  "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "headline": "Monitoring Django application performance with OpenTelemetry",
-  "alternativeHeadline": "How to set up and use OpenTelemetry for Django application monitoring",
-  "author": {
-    "@type": "Person",
-    "name": "Ankit Anand"
-  },
-  "contributor": {
-    "@type": "Person",
-    "name": "Ankit Nayan"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "SigNoz",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://signoz.io/img/SigNozLogo-orange.svg"
-    }
-  },
-  "datePublished": "2024-02-08T00:00:00Z",
-  "dateModified": "2024-08-08T00:00:00Z",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://signoz.io/blog/opentelemetry-django/"
-  },
-  "description": "Learn how to set up monitoring for a Django application using OpenTelemetry. This guide covers installation, configuration, and visualization of telemetry data using SigNoz.",
-  "keywords": "opentelemetry, opentelemetry django, opentelemetry python, distributed tracing, observability, [django monitoring](https://signoz.io/blog/monitor-gunicorn-django-in-prometheus/), django instrumentation, signoz",
-  "articleSection": "Technology",
-  "inLanguage": "en",
-  "isPartOf": {
-    "@type": "Blog",
-    "name": "SigNoz Blog",
-    "url": "https://signoz.io/blog/"
-  },
-  "about": [
-    {
-      "@type": "Thing",
-      "name": "OpenTelemetry",
-      "description": "An open-source observability framework for cloud-native software"
-    },
-    {
-      "@type": "Thing",
-      "name": "Django",
-      "description": "A high-level Python web framework"
-    },
-    {
-      "@type": "Thing",
-      "name": "Application Performance Monitoring",
-      "description": "The practice of monitoring software applications to detect and diagnose performance issues"
-    }
-  ],
-  "mentions": [
-    {
-      "@type": "SoftwareApplication",
-      "name": "Django",
-      "applicationCategory": "Web Framework"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "name": "OpenTelemetry",
-      "applicationCategory": "Observability Framework"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "name": "SigNoz",
-      "applicationCategory": "Application Performance Monitoring"
-    }
-  ],
-  "mainEntity": {
-    "@type": "HowTo",
-    "name": "How to Monitor Django Applications with OpenTelemetry",
-    "step": [
-      {
-        "@type": "HowToStep",
-        "name": "Set up SigNoz",
-        "text": "Install SigNoz as the backend for storing and visualizing OpenTelemetry data"
-      },
-      {
-        "@type": "HowToStep",
-        "name": "Install OpenTelemetry packages",
-        "text": "Install necessary OpenTelemetry and Python packages using pip"
-      },
-      {
-        "@type": "HowToStep",
-        "name": "Configure environment variables",
-        "text": "Set up environment variables for OpenTelemetry exporters"
-      },
-      {
-        "@type": "HowToStep",
-        "name": "Run Django application with OpenTelemetry",
-        "text": "Use opentelemetry-instrument command to run the Django application with instrumentation"
-      },
-      {
-        "@type": "HowToStep",
-        "name": "Monitor application in SigNoz",
-        "text": "View and analyze the collected telemetry data in the SigNoz dashboard"
-      }
-    ]
-  }
-}) }}
-  />
-</head>
-
-Django is a popular open-source python web framework that enables rapid development while taking out much of the hassle from routine web development. It also helps developers to avoid common security mistakes. As such, many applications are built with Django.
-
-
-
-![Cover Image](/img/blog/2022/01/opentelemetry_django_cover.webp)
-
-Django is very popular among web developers and has a huge community behind it. It gives web developers ready-to-use components for common things that you will need to accomplish for a web application. Some examples are user authentication, admin panel for your website, forms, etc.
-
-A Django application is built of different components like a web server, database, web server gateway interface, etc. To monitor a Django application for performance, you need to monitor all these components. And that’s where OpenTelemetry comes into the picture.
+A Django application is composed of multiple interconnected components- HTTP servers, WSGI/ASGI gateways, databases, caches, background workers and more- and issues can be encountered in any component at various stages of application's lifespan. To observe a Django application (including monitoring its vitals for performance concerns), you need to observe all these components. And that’s where OpenTelemetry comes into the picture.
 
 > **What is OpenTelemetry Django?**<br></br>
 > [OpenTelemetry Django](https://signoz.io/docs/instrumentation/django/) instrumentation enables generation of telemetry data from your Django application. The data is then used to monitor performance of Django application.<br></br> OpenTelemetry provides an open-source standard with a consistent collection mechanism and data format. As application owners, you will always have the freedom to choose different vendors to visualize the collected telemetry data.
@@ -347,7 +232,7 @@ You need to set some environment variables while running the application with Op
 
 docker run -d --name django-container \
 -e OTEL_METRICS_EXPORTER='none' \
--e OTEL_RESOURCE_ATTRIBUTES='service.name=djangoApp' \
+-e OTEL_RESOURCE_ATTRIBUTES='service.name=sample-django-app' \
 -e OTEL_EXPORTER_OTLP_ENDPOINT="https://ingest.{region}.signoz.cloud:443" \
 -e OTEL_EXPORTER_OTLP_HEADERS="signoz-ingestion-key=SIGNOZ_INGESTION_KEY" \
 -e OTEL_EXPORTER_OTLP_PROTOCOL=grpc \
@@ -365,7 +250,7 @@ docker run -d --name django-container \
 --net clickhouse-setup_default  \ 
 --link clickhouse-setup_otel-collector_1 \
 -e OTEL_METRICS_EXPORTER='none' \
--e OTEL_RESOURCE_ATTRIBUTES='service.name=djangoApp' \
+-e OTEL_RESOURCE_ATTRIBUTES='service.name=sample-django-app' \
 -e OTEL_EXPORTER_OTLP_ENDPOINT="https://ingest.{region}.signoz.cloud:443" \
 -e OTEL_EXPORTER_OTLP_HEADERS="signoz-ingestion-key=SIGNOZ_INGESTION_KEY" \
 -e OTEL_EXPORTER_OTLP_PROTOCOL=grpc \
