@@ -106,7 +106,7 @@ source .venv/bin/activate
 python -m pip install -r requirements.txt
 ```
 
-<Admonition type="info">
+<KeyPointCallout title="Debugging OTel Exporter Installation">
 The `opentelemetry-exporter-otlp` is a convenience wrapper package to install all OTLP exporters. Currently, it installs:
 
 - `opentelemetry-exporter-otlp-proto-http`
@@ -114,7 +114,7 @@ The `opentelemetry-exporter-otlp` is a convenience wrapper package to install al
 - (soon) `opentelemetry-exporter-otlp-json-http`
 
 The `opentelemetry-exporter-otlp-proto-grpc` package installs the gRPC exporter which depends on the `grpcio` package. The installation of `grpcio` may fail on some platforms for various reasons. If you run into such issues, or you don't want to use gRPC, you can install the HTTP exporter instead by installing the `opentelemetry-exporter-otlp-proto-http` package. You need to set the `OTEL_EXPORTER_OTLP_PROTOCOL` environment variable to `http/protobuf` to use the HTTP exporter.
-</Admonition>
+</KeyPointCallout>
 
 If it hangs while installing the `grpcio` dependency for **`opentelemetry-exporter-otlp`**, follow below steps as suggested in [this stackoverflow link](https://stackoverflow.com/questions/56357794/unable-to-install-grpcio-using-pip-install-grpcio/62500932#62500932).
 
