@@ -205,6 +205,33 @@ You might have noticed that SigNoz dashboard doesn’t show any logs. There are 
 
 We have a [detailed guide](https://signoz.io/opentelemetry/logging-in-python/#configure-the-logging-sdk) that covers sending logs to OTel backend.
 
+### Capturing Custom Traces for Application-Specific Flows
+
+Automatic instrumentation does not application-specific operations beyond web requests and details about core functionality like database queries.
+
+Developers can use **custom spans** to track specific operations and add custom attributes to capture detailed context. The following code snippet shows an example with dynamic attribute values:
+
+```py
+from random import choice
+import time
+
+from opentelemetry import trace
+
+tracer = trace.get_tracer(__name__)
+
+
+def validate_data(data: dict) -> bool:
+	time.sleep(0.1)  # Simulate a delay in processing
+	return choice([True, False])
+
+with tracer.start_as_current_span("validate_data") as span:
+    data = {"sample": "data"}
+    
+    span.set_attribute("data.length", len(data))
+    is_valid = validate_data(data)
+    span.set_attribute("data.validated", is_valid)
+```
+
 ### Implementing Custom Metrics
 
 Custom metrics derive performance KPIs and measure business-specific health signals. Automatic instrumentation does not measure these values as they require deep insight into an application’s business context, and must be measured manually.
