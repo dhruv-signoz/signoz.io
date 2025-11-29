@@ -3,14 +3,14 @@ title: Beginner's Guide to OpenTelemetry & Django (2025)
 slug: opentelemetry-django
 date: 2025-11-25
 tags: [OpenTelemetry Instrumentation, Python]
-authors: [ankit_anand, ankit_nayan]
+authors: [ankit_anand, ankit_nayan, dhruv_ahuja]
 description: OpenTelemetry provides an open-source standard with a consistent collection mechanism and data format. In this article, learn how to set up monitoring for a Django application using OpenTelemetry.
 image: /img/blog/2022/01/opentelemetry_django_cover.webp
 hide_table_of_contents: false
 keywords: [opentelemetry,opentelemetry django,opentelemetry python,distributed tracing,observability,django monitoring,django instrumentation,signoz]
 ---
 
-Django is a popular open-source "batteries-included" python web framework that enables rapid development while taking out much of the hassle from routine web development. It provides pre-built components like web servers, database ORMs, and authentication/authorization layers, allowing developers to focus on application business logic and reduces prevents common security mistakes. As such, developers and organizations worldwide use Django to build mission-critical applications.
+Django is a popular open-source "batteries-included" Python web framework that enables rapid development while taking out much of the hassle from routine web development. It provides pre-built components like web servers, database ORMs, and authentication/authorization layers, allowing developers to focus on application business logic and reduces prevents common security mistakes. As such, developers and organizations worldwide use Django to build mission-critical applications.
 
 A Django application is composed of multiple interconnected components- HTTP servers, WSGI/ASGI gateways, databases, caches, background workers and more- and issues can be encountered in any component at various stages of application's lifespan. To observe a Django application (including monitoring its vitals for performance concerns), you need to observe all these components. And that’s where OpenTelemetry comes into the picture.
 
@@ -179,6 +179,7 @@ Application hot-reload can cause inconsistent data generation by breaking OTel i
 If you want to run the application with a docker image, refer to the section below for instructions.
 
 ### Instrument Django Application Using Docker
+
 You can use the below instructions if you want to run your app as a Docker container, below are the instructions.
 
 ### Step 1: Build Docker Image
@@ -276,9 +277,11 @@ setup_opentelemetry()
 This will ensure the function is invoked when Gunicorn starts, and will configure log records to be transformed into and forwarded to our [defined OTLP endpoint](#step-2-configure-environment-variables). Try it out by adding some log statements in the views, then checking the `Logs` panel.
 
 <figure data-zoomable align='center'>
-    <img src="/img/blog/2025/11/otel-django-logs.webp" alt="Application Logs in SigNoz Views Pane"/>
-    <figcaption><i>Application Logs in SigNoz Views Pane</i></figcaption>
+    <img src="/img/blog/2025/11/otel-django-logs.webp" alt="Application Logs in SigNoz Logs Pane"/>
+    <figcaption><i>Application Logs in SigNoz Logs Pane</i></figcaption>
 </figure>
+
+Logging in Django is a vast topic, and there is much nuance to it. We have a deep-dive on this topic [available here](https://signoz.io/guides/django-logging/).
 
 ## Next Steps
 
