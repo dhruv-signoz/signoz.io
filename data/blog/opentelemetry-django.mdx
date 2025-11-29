@@ -178,9 +178,8 @@ Application hot-reload can cause inconsistent data generation by breaking OTel i
 
 If you want to run the application with a docker image, refer to the section below for instructions.
 
-### Run with docker
-You can use the below instructions if you want to run your app as a docker image, below are the instructions.<br></br>
-
+### Instrument Django Application Using Docker
+You can use the below instructions if you want to run your app as a Docker container, below are the instructions.
 
 ### Step 1: Build Docker Image
 
@@ -192,11 +191,9 @@ docker build -t sample-django-app .
 
 ### Step 2: Configure Environment Variables
 
-As previously discussed, you need to set some environment variables while running the application with OpenTelemetry to send collected data to SigNoz. Run the following command:
+As previously discussed, to send the collected data to SigNoz, you need to set some environment variables while running the application with OpenTelemetry. The following command will set requisite values and start the container:
 
 ```bash
-# If you have your SigNoz IP Address, replace <IP of SigNoz> with your IP Address. 
-
 docker run -d --name django-container \
 -e DJANGO_SETTINGS_MODULE=mysite.settings \
 -e OTEL_RESOURCE_ATTRIBUTES='service.name=sample-django-app' \
@@ -223,9 +220,78 @@ docker run -d --name django-container \
 -p 8000:8000 sample-django-app
 ```
 
+## Exporting Django Logs to OpenTelemetry Backend
+
+The fragmented and somewhat complex nature of logging system in Python, in large part due to logging having the longest legacy as a monitoring mechanism, means that logging takes more effort to setup compared to other forms of telemetry. We must manually instrument our application, and create a "bridge" between the OpenTelemetry logging framework and Python's `logging` library. Copy-paste the following code into a new file called `otel_config.py`:
+
+```py
+import os
+import logging
+
+from opentelemetry.instrumentation.logging import LoggingInstrumentor
+from opentelemetry.sdk.resources import Resource
+from opentelemetry._logs import set_logger_provider, get_logger_provider
+from opentelemetry.sdk._logs import LoggerProvider, LoggingHandler
+from opentelemetry.sdk._logs.export import BatchLogRecordProcessor, ConsoleLogExporter
+from opentelemetry.exporter.otlp.proto.grpc._log_exporter import OTLPLogExporter
+
+def setup_opentelemetry():
+    logger = logging.getLogger()
+
+    otlp_export_endpoint = os.environ["OTEL_EXPORTER_OTLP_ENDPOINT"]
+
+    # add resource metadata to logs
+    resource = Resource.create(attributes={
+        "service.name": "sample-django-app"
+    })
+    logger_provider= LoggerProvider(resource=resource)
+    set_logger_provider(logger_provider)
+
+    # define the exporter to send logs to the observability backend 
+    log_exporter = OTLPLogExporter(endpoint=otlp_export_endpoint)
+    # register it with the global provider
+    logger_provider.add_log_record_processor(
+        BatchLogRecordProcessor(log_exporter)
+    )
+
+    # configure the python logging module to support OTel by registering the handler
+    handler = LoggingHandler(level="INFO", logger_provider=logger_provider)
+    logger.addHandler(handler)
+    logger.setLevel(logging.INFO)
+
+    # inject trace context into logs
+    LoggingInstrumentor().instrument(set_logging_format=True)
+
+    logger.info("OpenTelemetry logging is configured.")
+```
+
+Once done, open the `wsgi.py` file — as we're using Gunicorn to run the application server — and add the import and invocation statement just after the import statements:
+
+```py
+from otel_config import setup_opentelemetry
+
+setup_opentelemetry()
+```
+
+This will ensure the function is invoked when Gunicorn starts, and will configure log records to be transformed into and forwarded to our [defined OTLP endpoint](#step-2-configure-environment-variables). Try it out by adding some log statements in the views, then checking the `Logs` panel.
+
+<figure data-zoomable align='center'>
+    <img src="/img/blog/2025/11/otel-django-logs.webp" alt="Application Logs in SigNoz Views Pane"/>
+    <figcaption><i>Application Logs in SigNoz Views Pane</i></figcaption>
+</figure>
+
+## Next Steps
+
+TODO: research and add points here
+
+add logs export segment to django logs article and links here
+
+other sections link from otel python blog
+
+
 ## OpenTelemetry vs Other Django Monitoring Solutions
 
-When it comes to monitoring Django applications, OpenTelemetry offers several advantages over other solutions. Let's compare OpenTelemetry with some popular alternatives:
+When it comes to observability for Django applications, OpenTelemetry offers several advantages over other solutions. Let's compare OpenTelemetry with some popular alternatives:
 
 ### 1. OpenTelemetry vs Django Debug Toolbar
 
@@ -281,20 +347,18 @@ When it comes to monitoring Django applications, OpenTelemetry offers several ad
 
 6. **Cost-Effective:** Open-source nature makes it more cost-effective for large-scale deployments.
 
-While OpenTelemetry requires more initial setup compared to some out-of-the-box solutions, its flexibility, comprehensive data collection, and vendor-agnostic nature make it an excellent choice for Django applications, especially those looking for a scalable, future-proof monitoring solution.
+While OpenTelemetry requires more initial setup compared to some out-of-the-box solutions, its flexibility, comprehensive data collection, and vendor-agnostic nature make it an excellent choice for Django applications, especially those looking for a scalable, future-proof observability solution.
 
 ## Conclusion
 
-OpenTelemetry makes it very convenient to instrument your Django application. You can then use an open-source APM tool like SigNoz to analyze the performance of your app. As SigNoz offers a full-stack observability tool, you don't have to use multiple tools for your monitoring needs.
+OpenTelemetry makes it very convenient to instrument your Django application. You can then use an open-source APM tool like SigNoz to analyze the performance of your app. As SigNoz covers the three pillars of observability — traces, metrics, and logs — under one pane, you avoid the contextual overhead of maintaining separate tools.
 
 You can try out SigNoz by visiting its GitHub repo:
 [![SigNoz GitHub repo](/img/blog/common/signoz_github.webp)](https://github.com/SigNoz/signoz)
 
-
 If you have any questions or need any help in setting things up, join our slack community and ping us in `#support` channel.
 
 [![SigNoz Slack community](/img/blog/common/join_slack_cta.webp)](https://signoz.io/slack)
-
 
 ## FAQs
 
