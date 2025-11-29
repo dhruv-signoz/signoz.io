@@ -10,14 +10,15 @@ hide_table_of_contents: false
 keywords: [opentelemetry,opentelemetry django,opentelemetry python,distributed tracing,observability,django monitoring,django instrumentation,signoz]
 ---
 
-Django is a popular open-source "batteries-included" Python web framework that enables rapid development while taking out much of the hassle from routine web development. It provides pre-built components like web servers, database ORMs, and authentication/authorization layers, allowing developers to focus on application business logic and reduces prevents common security mistakes. As such, developers and organizations worldwide use Django to build mission-critical applications.
+Django is a popular open-source "batteries-included" Python web framework that enables rapid development while taking out much of the hassle from routine web development. By providing pre-built components like ORM integrations, authentication/authorization systems and more, it enables developers to focus on business logic and iterate fast. As such, developers and organizations worldwide use Django to build web apps of varying complexities.
 
-A Django application is composed of multiple interconnected components- HTTP servers, WSGI/ASGI gateways, databases, caches, background workers and more- and issues can be encountered in any component at various stages of application's lifespan. To observe a Django application (including monitoring its vitals for performance concerns), you need to observe all these components. And that’s where OpenTelemetry comes into the picture.
+A Django application is composed of multiple interconnected components — HTTP servers, WSGI/ASGI gateways, databases, caches, background workers and more — and components may misbehave at various stages of the application's lifespan. To observe a Django application (including monitoring its vitals for performance concerns), you need to observe all these components. And that’s where OpenTelemetry comes into the picture.
 
-In this article, we will walk you through the relevance of OpenTelemetry for Django applications, instrumenting a sample application with OpenTelemetry, and gain understand how OpenTelemetry-native backends like SigNoz represent the data.
+In this article, we will walk you through the relevance of OpenTelemetry for Django applications, instrumenting a sample application with OpenTelemetry, and understand how OpenTelemetry-native platforms like SigNoz utilize telemetry.
 
 ## What is OpenTelemetry Django?
-[OpenTelemetry Django](https://signoz.io/docs/instrumentation/django/) instrumentation enables generation and management of telemetry data (logs, metrics, and traces) from your Django application. This data is then used to observe the application and gain insights into its behaviour, performance and health. OpenTelemetry provides an open-source standard with a consistent collection mechanism and data format. As application owners, you will always have the freedom to choose different vendors to visualize the collected telemetry data, and can export this data in a variety of formats.
+
+[OpenTelemetry Django](https://signoz.io/docs/instrumentation/django/) instrumentation enables generation and management of telemetry data (logs, metrics, and traces) from your Django application. This data is then used to observe the application and gain insights into its performance and behavior. OpenTelemetry provides an open-source standard with a consistent data format and collection mechanism. As application owners, you will always have the freedom to choose different vendors to visualize the collected telemetry data, and can consume this data in a variety of formats.
 
 Instrumentation is the biggest challenge engineering teams face when starting out with monitoring their application performance. [OpenTelemetry](https://signoz.io/why-opentelemetry/) is the leading open-source standard solving the problem of instrumentation. It is currently an incubating project under the [Cloud Native Computing Foundation](https://www.cncf.io/) and aims to make telemetry data a built-in feature of cloud-native software applications.
 
@@ -207,7 +208,7 @@ docker run -d --name django-container \
 If you instead prefer a Docker Compose setup:
 
 ```bash
-# If you are running signoz through official docker compose setup, run `docker network ls` and find clickhouse network id. It will be something like this clickhouse-setup_default 
+# If you are running SigNoz through official Docker Compose setup, run `docker network ls` and find ClickHouse network id. It will be something like- clickhouse-setup_default
 # and pass network id by using --net <network ID>
 
 docker run -d --name django-container \ 
@@ -283,14 +284,11 @@ This will ensure the function is invoked when Gunicorn starts, and will configur
 
 Logging in Django is a vast topic, and there is much nuance to it. We have a deep-dive on this topic [available here](https://signoz.io/guides/django-logging/).
 
-## Next Steps
+## Implementing Custom Traces and Metrics
 
-TODO: research and add points here
+Observability is a practice that should evolve as your applications do, and part of that is manually instrumenting parts of the codebase that are otherwise unobserved. Having custom traces and metrics will help you capture details that matter to your application systems, help deliver business value and recognize and resolve complex issues faster.
 
-add logs export segment to django logs article and links here
-
-other sections link from otel python blog
-
+You can find more information on manual instrumentation in Python in [this section](https://signoz.io/opentelemetry/python/#capturing-custom-traces-for-application-specific-flows) of our OTel Python blog.
 
 ## OpenTelemetry vs Other Django Monitoring Solutions
 
@@ -395,10 +393,10 @@ OpenTelemetry is designed to have minimal impact on application performance. How
 
 ---
 
-If you want to read more about SigNoz 👇
+Some more blogs we think you’ll like 👇
 
 [Django Logging - Complete Guide to Python Django Logging](https://signoz.io/guides/django-logging/)
 
 [Golang Aplication Monitoring with OpenTelemetry and SigNoz](https://signoz.io/opentelemetry/go/)
 
-[OpenTelemetry collector - complete guide](https://signoz.io/blog/opentelemetry-collector-complete-guide/)
+[OpenTelemetry Collector from A to Z: A Production-Ready Guide](https://signoz.io/blog/opentelemetry-collector-complete-guide/)
