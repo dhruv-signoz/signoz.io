@@ -171,7 +171,17 @@ If you are running SigNoz in self-hosted mode, use the localhost endpoint:
 
 After running the command, visit [http://localhost:8000/admin](http://localhost:8000/admin) to open the admin panel and validate your app is running. Generate some telemetry to be captured by adding few questions through the app interface.
 
-ADD VIDEO HERE!!
+<figure data-zoomable align='center'>
+    <video
+        className="box-shadowed-image"
+        src="/img/blog/2025/11/django-signoz-walkthrough.mp4"
+        width="100%"
+        controls={true}
+    >
+        Your browser does not support the video tag.
+    </video>
+    <figcaption><i>An overview of SigNoz's APM capabilities</i></figcaption>
+</figure>
 
 ### Troubleshooting
 
@@ -286,7 +296,7 @@ Logging in Django is a vast topic, and there is much nuance to it. We have a dee
 
 ## Implementing Custom Traces and Metrics
 
-Observability is a practice that should evolve as your applications do, and part of that is manually instrumenting parts of the codebase that are otherwise unobserved. Having custom traces and metrics will help you capture details that matter to your application systems, help deliver business value and recognize and resolve complex issues faster.
+Observability is a practice that should evolve alongside your applications, and part of the process is manually instrumenting key areas of the codebase that are otherwise unobserved. Having custom traces and metrics will help you capture details that matter to your application systems, deliver business value, and recognize and resolve complex issues faster.
 
 You can find more information on manual instrumentation in Python in [this section](https://signoz.io/opentelemetry/python/#capturing-custom-traces-for-application-specific-flows) of our OTel Python blog.
 
