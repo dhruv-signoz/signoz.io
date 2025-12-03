@@ -3,7 +3,7 @@ title: Beginner's Guide to OpenTelemetry & Django (2025)
 slug: opentelemetry-django
 date: 2025-11-25
 tags: [Observability, Python, OpenTelemetry, Monitoring]
-authors: [ankit_anand, ankit_nayan, dhruv_ahuja]
+authors: [ankit_anand, dhruv_ahuja]
 description: OpenTelemetry provides an open-source standard with a consistent collection mechanism and data format. In this article, learn how to set up monitoring for a Django application using OpenTelemetry.
 image: /img/blog/common/django-dashboard.webp
 hide_table_of_contents: false
@@ -12,9 +12,9 @@ keywords: [opentelemetry,opentelemetry django,opentelemetry python,distributed t
 
 Django is a popular open-source "batteries-included" Python web framework that enables rapid development while taking out much of the hassle from routine web development. By providing pre-built components like ORM integrations, authentication/authorization systems and more, it enables developers to focus on business logic and iterate fast. As such, developers and organizations worldwide use Django to build web apps of varying complexities.
 
-A Django application is composed of multiple interconnected components — HTTP servers, WSGI/ASGI gateways, databases, caches, background workers and more — and components may misbehave at various stages of the application's lifespan. To observe a Django application (including monitoring its vitals for performance concerns), you need to observe all these components. And that’s where OpenTelemetry comes into the picture.
+A Django application is composed of multiple interconnected components such as HTTP servers, WSGI/ASGI gateways, databases, caches, background workers and more. Due to the complexity of modern web applications, these components may misbehave at various stages of the application's lifespan. To observe a Django application (including monitoring its vitals for performance concerns), you need to observe all these components. And that’s where OpenTelemetry comes into the picture.
 
-In this article, we will walk you through the relevance of OpenTelemetry for Django applications, instrumenting a sample application with OpenTelemetry, and understanding how OpenTelemetry-native platforms like SigNoz process and utilize telemetry.
+We will walk you through the process of implementing OpenTelemetry for Django applications by instrumenting a sample Django application to generate telemetry data, and understanding how OpenTelemetry-native platforms like SigNoz process and utilize telemetry.
 
 ## What is OpenTelemetry Django?
 
