@@ -14,7 +14,7 @@ Django is a popular open-source "batteries-included" Python web framework that e
 
 A Django application is composed of multiple interconnected components such as HTTP servers, WSGI/ASGI gateways, databases, caches, background workers and more. Due to the complexity of modern web applications, these components may misbehave at various stages of the application's lifespan. To observe a Django application (including monitoring its vitals for performance concerns), you need to observe all these components. And that’s where OpenTelemetry comes into the picture.
 
-We will walk you through the process of implementing OpenTelemetry for Django applications by instrumenting a sample Django application to generate telemetry data, and understanding how OpenTelemetry-native platforms like SigNoz process and utilize telemetry.
+We will walk you through the process of implementing OpenTelemetry for Django applications by instrumenting a sample Django application to generate telemetry data, and sending the data to an OpenTelemetry-native observability backend like SigNoz to visualize and analyze. SigNoz was built to work with OpenTelemetry from day 1, and is best suited to handle it.
 
 ## What is OpenTelemetry Django?
 
@@ -156,7 +156,7 @@ OTEL_EXPORTER_OTLP_PROTOCOL=grpc \
 opentelemetry-instrument gunicorn mysite.wsgi -c gunicorn.config.py --workers 2 --threads 2
 ```
 
-You can get SigNoz ingestion key and region from your SigNoz cloud account from Settings --> Ingestion.
+You can get SigNoz ingestion key and region from your SigNoz Cloud account from Settings --> Ingestion.
 
 <KeyPointCallout title="Self-Hosted Setup">
 If you are running SigNoz in self-hosted mode, use the localhost endpoint:
@@ -366,12 +366,7 @@ While OpenTelemetry requires more initial setup compared to some out-of-the-box 
 
 OpenTelemetry makes it very convenient to instrument your Django application. You can then use an open-source APM tool like SigNoz to analyze the performance of your app. As SigNoz covers the three pillars of observability — traces, metrics, and logs — under one pane, you avoid the contextual overhead of maintaining separate tools.
 
-You can try out SigNoz by visiting its GitHub repo:
-[![SigNoz GitHub repo](/img/blog/common/signoz_github.webp)](https://github.com/SigNoz/signoz)
-
-If you have any questions or need any help in setting things up, join our slack community and ping us in `#support` channel.
-
-[![SigNoz Slack community](/img/blog/common/join_slack_cta.webp)](https://signoz.io/slack)
+SigNoz Cloud enables first-class OpenTelemetry support with guided installation steps for instrumeting all parts of your tech stack, including infrastructure, and supports 50+ data sources. [Sign up today](https://signoz.io/teams/) to get unlimited access to all features for 30 days.
 
 ## FAQs
 
